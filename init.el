@@ -1,4 +1,13 @@
 (add-to-list 'load-path "~/.emacs.d/custom")
+
+;; Encoding
+(prefer-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(set-terminal-coding-system 'utf-8-unix)
+(set-keyboard-coding-system 'utf-8-unix)
+(set-selection-coding-system 'utf-8-unix)
+(setq-default buffer-file-coding-system 'utf-8-unix)
+
 ;; Font size
 (set-face-attribute 'default nil :height 150)
 (set-default-font "Monospace-12")
@@ -49,8 +58,8 @@
 (add-hook 'c-mode-hook (lambda () (interactive) (column-marker-1 80)))
 (add-hook 'c++-mode-hook (lambda () (interactive) (column-marker-1 80)))
 ;;Auto-complete
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 
 ;; Automatically remove trailing whitespace when file is saved.
