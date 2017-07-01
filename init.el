@@ -43,6 +43,9 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(require 'info)
+(info-initialize)
+
 (require 'setup-general)
 (if (version< emacs-version "24.4")
     (require 'setup-ivy-counsel)
@@ -52,41 +55,22 @@
 (require 'setup-cedet)
 (require 'setup-editing)
 
-;;Column marker
+;; Hideshow
+(require 'hideshow-org)
+(add-hook 'c-mode-common-hook   'hs-minor-mode)
+
+;; Column marker
 (require 'column-marker)
-(add-hook 'python-mode-hook (lambda () (interactive) (column-marker-1 80)))
-(add-hook 'c-mode-hook (lambda () (interactive) (column-marker-1 80)))
-(add-hook 'c++-mode-hook (lambda () (interactive) (column-marker-1 80)))
-;;Auto-complete
+(add-hook 'c-mode-common-hook (lambda () (interactive) (column-marker-1 80)))
+(add-hook 'python-mode-hook (lambda () (interactive) (column-marker-1 79)))
+
+;; Auto-complete
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 
 ;; Automatically remove trailing whitespace when file is saved.
-(add-hook 'python-mode-hook
-      (lambda()
-        (add-hook 'local-write-file-hooks
-              '(lambda()
-                 (save-excursion
-                   (delete-trailing-whitespace))))))
-(add-hook 'c-mode-hook
-      (lambda()
-        (add-hook 'local-write-file-hooks
-              '(lambda()
-                 (save-excursion
-                   (delete-trailing-whitespace))))))
-(add-hook 'c++-mode-hook
-      (lambda()
-        (add-hook 'local-write-file-hooks
-              '(lambda()
-                 (save-excursion
-                   (delete-trailing-whitespace))))))
-(add-hook 'js-mode-hook
-      (lambda()
-        (add-hook 'local-write-file-hooks
-              '(lambda()
-                 (save-excursion
-                   (delete-trailing-whitespace))))))
+(add-hook 'before-save-hook 'whitespace-cleanup)
 (setq-default indent-tabs-mode nil)
 
 ;; function-args
@@ -101,7 +85,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (zygospore helm-gtags helm yasnippet ws-butler volatile-highlights use-package undo-tree iedit dtrt-indent counsel-projectile company clean-aindent-mode anzu))))
+    (hideshow-org zygospore helm-gtags helm yasnippet ws-butler volatile-highlights use-package undo-tree iedit dtrt-indent counsel-projectile company clean-aindent-mode anzu))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
