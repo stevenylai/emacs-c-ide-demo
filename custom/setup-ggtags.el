@@ -1,4 +1,5 @@
 (require 'ggtags)
+(require 'dired)
 
 (ggtags-mode 1)
 (add-hook 'c-mode-common-hook
