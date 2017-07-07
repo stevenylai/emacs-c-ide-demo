@@ -4,10 +4,9 @@
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
-(when (not package-archive-contents)
-    (package-refresh-contents))
-
+;; Bootstrap 'use-package'
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
   (package-install 'use-package))
 
 ;; Tweaks
@@ -44,37 +43,53 @@
 
 ;; Automatically remove trailing whitespace when file is saved.
 (add-hook 'before-save-hook 'whitespace-cleanup)
-(setq-default indent-tabs-mode nil)
 
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-;; Which key
-(require 'which-key)
-(which-key-mode)
+;; Which key help
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 
 ;; Hideshow
-(require 'hideshow-org)
-(add-hook 'c-mode-common-hook   'hs-minor-mode)
+(use-package hideshow-org
+  :ensure t
+  :config
+  (add-hook 'c-mode-common-hook 'hs-minor-mode))
 
 ;; Column marker
-(require 'column-marker)
-(add-hook 'c-mode-common-hook (lambda () (interactive) (column-marker-1 80)))
-(add-hook 'python-mode-hook (lambda () (interactive) (column-marker-1 79)))
+(use-package column-marker
+  :ensure t
+  :config
+  (add-hook 'c-mode-common-hook (lambda () (interactive) (column-marker-1 80)))
+  (add-hook 'python-mode-hook (lambda () (interactive) (column-marker-1 79)))
+  )
 
 ;; Auto-complete
-;(require 'auto-complete-config)
-;(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-;(ac-config-default)
+(use-package auto-complete-config
+  :ensure t
+  :config
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+  (ac-config-default))
 
 ;; Flycheck
-(require 'flycheck)
-(global-flycheck-mode)
+(use-package flycheck
+  :ensure t
+  :config
+  (global-flycheck-mode))
 
+;; Speedbar in the same frame
 (require 'sr-speedbar)
+
+;; Customized setup
 (require 'setup-general)
-(require 'setup-ivy-counsel)
-(require 'setup-ggtags)
+(if (version< emacs-version "24.4")
+    (require 'setup-ivy-counsel)
+  (require 'setup-helm)
+  (require 'setup-helm-gtags))
+;; (require 'setup-ggtags)
 (require 'setup-cedet)
 (require 'setup-editing)
 
