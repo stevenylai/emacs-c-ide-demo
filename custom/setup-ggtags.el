@@ -1,4 +1,5 @@
-(require 'ggtags)
+(use-package ggtags
+  :ensure t)
 (require 'dired)
 
 (ggtags-mode 1)

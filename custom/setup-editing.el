@@ -8,10 +8,13 @@
 (add-hook 'sh-mode-hook (lambda ()
                           (setq tab-width 4)))
 
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8-unix)
+(set-terminal-coding-system 'utf-8-unix)
+(set-keyboard-coding-system 'utf-8-unix)
+(set-selection-coding-system 'utf-8-unix)
+(setq-default buffer-file-coding-system 'utf-8-unix)
 (set-language-environment "UTF-8")
-(prefer-coding-system 'utf-8)
+(prefer-coding-system 'utf-8-unix)
 
 (setq-default indent-tabs-mode nil)
 (delete-selection-mode)

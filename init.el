@@ -22,16 +22,6 @@
 ;; Font size
 (set-face-attribute 'default nil :height 150)
 (set-default-font "Monospace-12")
-(global-set-key (kbd "<C-mouse-4>") 'text-scale-decrease)
-(global-set-key (kbd "<C-mouse-5>") 'text-scale-increase)
-
-;; Encoding
-(prefer-coding-system 'utf-8-unix)
-(set-default-coding-systems 'utf-8-unix)
-(set-terminal-coding-system 'utf-8-unix)
-(set-keyboard-coding-system 'utf-8-unix)
-(set-selection-coding-system 'utf-8-unix)
-(setq-default buffer-file-coding-system 'utf-8-unix)
 
 ;; Set auto pair
 (setq skeleton-pair t)
@@ -40,9 +30,6 @@
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
 (global-set-key "'" 'skeleton-pair-insert-maybe)
-
-;; Automatically remove trailing whitespace when file is saved.
-(add-hook 'before-save-hook 'whitespace-cleanup)
 
 (require 'use-package)
 (setq use-package-always-ensure t)
@@ -68,11 +55,13 @@
   )
 
 ;; Auto-complete
-(use-package auto-complete-config
+(use-package auto-complete
   :ensure t
-  :config
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-  (ac-config-default))
+  :init
+  (progn
+    (ac-config-default)
+    (global-auto-complete-mode t)
+    ))
 
 ;; Flycheck
 (use-package flycheck
@@ -88,8 +77,8 @@
 (if (version< emacs-version "24.4")
     (require 'setup-ivy-counsel)
   (require 'setup-helm)
-  (require 'setup-helm-gtags))
-;; (require 'setup-ggtags)
+  ;; (require 'setup-helm-gtags))
+  (require 'setup-ggtags))
 (require 'setup-cedet)
 (require 'setup-editing)
 
@@ -103,9 +92,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(haskell-mode-hook
+   (quote
+    (turn-on-haskell-indent turn-on-eldoc-mode capitalized-words-mode turn-on-haskell-doc-mode turn-on-haskell-decl-scan imenu-add-menubar-index turn-on-haskell-unicode-input-method)))
  '(package-selected-packages
    (quote
-    (sr-speedbar flycheck ace-window which-key try hideshow-org zygospore helm-gtags helm yasnippet ws-butler volatile-highlights use-package undo-tree iedit dtrt-indent counsel-projectile company clean-aindent-mode anzu))))
+    (elpa-mirror sr-speedbar flycheck ace-window which-key try hideshow-org zygospore helm-gtags helm yasnippet ws-butler volatile-highlights use-package undo-tree iedit dtrt-indent counsel-projectile company clean-aindent-mode anzu))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
