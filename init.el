@@ -22,6 +22,8 @@
 ;; Font size
 (set-face-attribute 'default nil :height 150)
 (set-default-font "Monospace-12")
+(global-set-key (kbd "<C-mouse-4>") 'text-scale-decrease)
+(global-set-key (kbd "<C-mouse-5>") 'text-scale-increase)
 
 ;; Set auto pair
 (setq skeleton-pair t)
@@ -70,18 +72,66 @@
   (global-flycheck-mode))
 
 ;; Speedbar in the same frame
-(require 'sr-speedbar)
+(use-package 'sr-speedbar
+  :ensure t)
+
+;; Python
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable))
+
+;; Java & scala
+(use-package jdee
+  :ensure t)
+(use-package scala-mode
+  :ensure t)
+
+;; Flex & bison
+(use-package bison-mode
+  :ensure t)
 
 ;; Customized setup
 (require 'setup-general)
-(if (version< emacs-version "24.4")
-    (require 'setup-ivy-counsel)
-  (require 'setup-helm)
-  ;; (require 'setup-helm-gtags))
-  (require 'setup-ggtags))
+(require 'setup-ivy-counsel)
+(require 'setup-ggtags)
 (require 'setup-cedet)
 (require 'setup-editing)
 
+(defconst my-c-style
+	'((c-tab-always-indent     . t)
+      (c-basic-offset          . 2)
+      (c-hanging-braces-alist  . ((substatement-open after)
+	                              (brace-list-open)))
+	  (c-hanging-colons-alist  . ((member-init-intro before)
+	                              (inher-intro)
+                                  (case-label after)
+                                  (label after)
+                                  (access-label after)))
+      (c-cleanup-list          .  (scope-operator
+                                   empty-defun-braces
+                                   defun-close-semi))
+      (c-offsets-alist         . ((arglist-close . c-lineup-arglist)
+                                  (substatement-open . 0)
+                                  (case-label        . 2)
+                                  (inline-open       . 0)
+                                  (block-open        . 0)
+                                  (arglist-intro     . +)
+                                  (knr-argdecl-intro . -)
+                                  (innamespace     . [0])))
+      ;;that's just optional (allow to see what you indent)
+	  (c-echo-syntactic-information-p . t))
+    "My C Programming Style")
+
+;; Option used to correct identation for curl-brakets
+(defun my-c-mode-common-hook ()
+  "Customized C hook.
+Customizations for all of c and related modes."
+  (c-add-style "PERSONAL" my-c-style t)
+  ;; other customizations can go here
+  )
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 ;; function-args
 ;; (require 'function-args)
 ;; (fa-config-default)
@@ -104,3 +154,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(provide 'init)
