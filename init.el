@@ -72,7 +72,7 @@
   (global-flycheck-mode))
 
 ;; Speedbar in the same frame
-(use-package 'sr-speedbar
+(use-package sr-speedbar
   :ensure t)
 
 ;; Python
