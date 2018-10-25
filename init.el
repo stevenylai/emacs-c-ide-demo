@@ -113,7 +113,7 @@
                                    defun-close-semi))
       (c-offsets-alist         . ((arglist-close . c-lineup-arglist)
                                   (substatement-open . 0)
-                                  (case-label        . 2)
+                                  (case-label        . 3)
                                   (inline-open       . 0)
                                   (block-open        . 0)
                                   (arglist-intro     . +)
