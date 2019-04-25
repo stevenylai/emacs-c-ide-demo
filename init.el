@@ -48,14 +48,6 @@
   :config
   (add-hook 'c-mode-common-hook 'hs-minor-mode))
 
-;; Column marker
-(use-package column-marker
-  :ensure t
-  :config
-  (add-hook 'c-mode-common-hook (lambda () (interactive) (column-marker-1 80)))
-  (add-hook 'python-mode-hook (lambda () (interactive) (column-marker-1 79)))
-  )
-
 ;; Auto-complete
 (use-package auto-complete
   :ensure t
@@ -97,6 +89,11 @@
 (require 'setup-ggtags)
 (require 'setup-cedet)
 (require 'setup-editing)
+(require 'column-marker)
+
+;; Column marker
+(add-hook 'c-mode-common-hook (lambda () (interactive) (column-marker-1 80)))
+(add-hook 'python-mode-hook (lambda () (interactive) (column-marker-1 79)))
 
 (desktop-save-mode 1)
 (setq desktop-path '("~/.emacs.d/desktop"))
